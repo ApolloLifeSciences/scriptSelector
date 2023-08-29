@@ -1,0 +1,2 @@
+scriptSelector is a Java GUI, created to execute small python or R scripts.
+The intention is to easily deply different script that tackle small tasks, like renaming files, analyzing data, etc. which would save the regular user time by not having to do that task manually anymore.
