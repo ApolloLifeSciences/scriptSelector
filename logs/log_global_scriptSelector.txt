@@ -1,0 +1,64 @@
+2022-11-24 13:44:12 renameTiffs C:\Users\nicolas.huber\Documents\particulator_testdata R1,R22022-11-24 13:49:36 renameTiffs C:\Users\nicolas.huber\Documents\particulator_testdata R1,R22022-11-24 13:50:18 renameTiffs C:\Users\nicolas.huber\Documents\particulator_testdata R1,R2
+2022-11-24 14:03:28 renameTiffs C:\Users\nicolas.huber\Documents\particulator_testdata R2,R8
+2022-11-24 14:05:41 renameTiffs C:\Users\nicolas.huber\Documents\particulator_testdata R2,R8
+2022-11-24 14:12:52 HelaComparison N:\individual_folders\NiHu\32666\04_results\autoReport 100,400
+2022-11-24 14:14:58 HelaComparison N:\DataAnalysis\archive_validationHotruns\Mateo_2022-01-28 100,400
+2022-11-24 14:16:09 intensityPlots N:\DataAnalysis\archive_validationHotruns\Mateo_2022-01-28\tables 100,400
+2022-11-24 14:16:25 intensityPlots N:\DataAnalysis\archive_validationHotruns\Mateo_2022-01-28\tables 
+2022-11-24 14:17:32 intensityPlots N:\DataAnalysis\archive_validationHotruns\Diego_2022-05-27\tables 
+2022-11-24 14:18:51 intensityPlots N:\DataAnalysis\archive_validationHotruns\ESBC2_mmBrain_2022-09-09\tables 
+2022-11-24 14:19:32 intensityPlots N:\DataAnalysis\archive_validationHotruns\ESBC2_2022-08-09\tables 
+2022-11-24 14:20:43 zLevelCounts.txt N:\individual_folders\NiHu\necropolis_testdata\20266\03_raw_data\20266-Slide3\20266-Slide3\panoramas 
+2022-11-24 15:08:07 Jira_entry_from_SFDC C:\Users\nicolas.huber 32666
+2022-11-24 17:37:26 zLevelCounts.txt L:\SerOPS\32753\03_raw_data\32753-Slide1\32753-Slide1\results 
+2022-11-25 10:35:34 install R packages C:\Users\NH-data-vm01 
+2022-11-25 10:37:29 install R packages C:\Users\NH-data-vm01 
+2022-11-25 10:44:23 install R packages C:\Users\NH-data-vm01 
+2022-11-28 15:51:21 HelaComparison P:\MolBio\02_Chemistry\20221121_AnKr_V78_L1dryice_Hs_HeLa\L1dryice\L1dryice\panoramas 
+2022-11-29 14:39:00 get coordinates N:\individual_folders\NiHu\necropolis_testdata\20266\03_raw_data\20266-Slide3\20266-Slide3\imagingConfig 
+2022-11-29 14:39:39 get coordinates I:\UyWo\00002\00002-slide2\03_raw_data\imagingConfig 
+2022-11-29 15:06:21 install R packages C:\Users\astha.gupta 
+2022-11-29 15:15:46 get coordinates R:\AsGu\33042\03_raw_data\33042-Slide2\33042\imagingConfig 
+2022-12-01 11:37:57 get coordinates L:\SerOPS\32666\32666\03_raw_data\32666-slide3B\imagingConfig 
+2022-12-01 11:41:42 get coordinates L:\SerOPS\32666\32666\03_raw_data\32666-slide7\imagingConfig 
+2022-12-01 11:42:18 get coordinates L:\SerOPS\32666\32666\03_raw_data\32666-slide7B\imagingConfig 
+2022-12-01 11:45:33 get coordinates L:\SerOPS\32666\32666\32666_2\03_raw_data\32666-slide6\32666-slide6\imagingConfig 
+2022-12-01 11:46:21 get coordinates L:\SerOPS\32666\32666\32666_2\03_raw_data\32666-slide6B\imagingConfig 
+2022-12-01 11:47:04 get coordinates L:\SerOPS\32666\32666\32666_2\03_raw_data\slide1-data\32666-slide1\32666-slide1\imagingConfig 
+2022-12-01 11:47:57 get coordinates L:\SerOPS\32666\32666\32666_2\03_raw_data\slide2-data\Run-20211109-174315\Snyder-Slide2\imagingConfig 
+2022-12-01 11:49:04 get coordinates L:\SerOPS\32666\32666\32666_2\03_raw_data\slide5-data\32666-slide5-newPart2\32666-slide5-new\imagingConfig 
+2022-12-02 09:33:09 HelaComparison D:\Resolve\Runs\AnKrV79\L1minus20\panoramas 
+2022-12-05 15:37:07 HelaComparison C:\Users\larry.dedionisio\Documents\Results\20221031_Training_Run_Maria\panoramas 
+2022-12-05 15:44:19 HelaComparison C:\Users\larry.dedionisio\Documents\Results\20221031_Training_Run_Maria\panoramas 
+2022-12-05 15:50:22 HelaComparison C:\Users\larry.dedionisio\Documents\Results\20221031_Training_Run_Maria\panoramas 
+2022-12-05 15:53:23 HelaComparison C:\Users\larry.dedionisio\Documents\Results\20221031_Training_Run_Maria\panoramas 
+2022-12-06 15:12:12 install R packages C:\Users\lothar.breitkopf 
+2022-12-06 10:04:16 HelaComparison K:\Operations\SerOPS\Projects\11111_internal-testing\11139-slide1\04_results 
+2022-12-06 10:05:35 HelaComparison K:\Operations\SerOPS\Projects\11111_internal-testing\11139-slide1\04_results\panoramas 
+2022-12-06 10:09:36 HelaComparison C:\Users\larry.dedionisio\Documents\Results\Carry-over Study\20221118_HeLa_Maria\Panoramas 
+2022-12-06 10:12:49 HelaComparison C:\Users\larry.dedionisio\Documents\Results\Carry-over Study\20221118_HeLa_Maria\Panoramas 
+2022-12-06 11:41:55 HelaComparison C:\Users\larry.dedionisio\Documents\Results\Carry-over Study\11139_HeLa_Tom\panoramas 
+2022-12-15 12:45:56 HelaComparison C:\Users\larry.dedionisio\Documents\Results\11131_Validation_Tom 
+2022-12-15 13:21:33 HelaComparison C:\Users\larry.dedionisio\Documents\Results\Freeze Thaw Probe Study\20221006-FT-HeLa2\panoramas 
+2022-12-15 13:23:07 HelaComparison C:\Users\larry.dedionisio\Documents\Results\Freeze Thaw Probe Study\20221006-FT-HeLa2\panoramas 
+2023-01-02 08:12:29 intensityPlots O:\SJ_RnD\HeLa_35C_Maria\panoramas 
+2023-01-05 12:30:05 HelaComparison \\Srv05storage\stor1\MolBio\02_Chemistry\20221121_AnKr_V79_L1minusTwenty_Hs_HeLa\AnKrV79\L1minus20\panoramas NA
+2023-01-05 12:30:28 HelaComparison \\Srv05storage\stor1\MolBio\02_Chemistry\20221212_AnKr_V0082_L1dryice_Hs_HeLa\AnKr-V0082\L1dryice\panoramas NA
+2023-01-27 13:41:46 install R packages N:\MatOPS\new\QC\02_QC Aufträge 2023\23000098Q_Probeset QC KW 3\Elizabeth Ausbildung\22102101-102, 23100027 (training) 2023-01-24 15-54-00-ExperimentSummary.csv 
+2023-03-16 15:03:36 intensityPlots P:\SJ_RnD\SlideStability\SlideStabilityW2_030723_Lucy\panoramas\autoReport 
+2023-03-16 15:03:58 intensityPlots P:\SJ_RnD\SlideStability\SlideStabilityW2_030723_Lucy\panoramas\autoReport\tables 
+2023-03-16 15:05:35 intensityPlots C:\Users\larry.dedionisio\Documents\Results\Stability Studies\CK_Stability\CK_Stability_T4_022823_Clara\autoReport 
+2023-04-14 11:34:22 HelaComparison N:\MatOPS\new\QC\02_QC Aufträge 2023\23000143Q Probeset QC KW15\NanoSight 
+2023-04-25 11:28:50 renameTiffs D:\Resolve\Runs\00014-slide1794-2\00014-slide1794-2\test _R9,_R8
+2023-04-25 11:29:50 renameTiffs D:\Resolve\Runs\00014-slide1794-2\00014-slide1794-2\preprocessing _R9_,_R8_
+2023-08-01 14:31:44 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:32:56 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:33:31 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:37:12 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:39:59 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:40:45 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:41:39 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:42:04 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:42:56 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:43:26 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 
+2023-08-01 14:43:39 remove FPs C:\Users\nicolas.huber\Desktop\deleteme 

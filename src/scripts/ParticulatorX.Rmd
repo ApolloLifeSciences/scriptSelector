@@ -1,0 +1,285 @@
+---
+title: "QC Report"
+output: 
+  html_document:
+    number_sections: true
+    theme: sandstone
+    highlight: espresso
+    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, warning = F, message = F)
+```
+
+
+```{r}
+# append_log <- function(..., Logfile="log_ParticulatorRMD.txt"){
+#   try(
+#     write(paste(Sys.time(), ...), file=Logfile, append = TRUE),
+#     silent = TRUE
+#   )
+# }
+# append_log("start")
+# CUSTOMTEXT <- params$customtext
+# if(CUSTOMTEXT=="") CUSTOMTEXT <- "100,300"
+
+library(ggplot2)
+library(data.table)
+library(dplyr)
+library(ggrepel)
+library(plotly)
+library(DT)
+library(scales)
+supertable <- function(df){
+  datatable(df, extensions="Buttons", filter = list(position = 'top', clear = FALSE), 
+            options=list(pageLength = nrow(df), dom="Bfrtip", buttons=c("copy","csv","excel","pdf","print")), rownames = F)
+}
+
+#set global variables
+colorOK <- "deepskyblue"
+colorMEH <- "orange"
+colorBAD <- "red"
+
+#read file
+# read.csv("Syringe Pump Test 50 2022-08-11 13-55-48-ExperimentSummary.csv", sep=",", row.names=NULL, col.names = seq(100)) %>% 
+list0 <- list.files(pattern = "csv$") %>% 
+  lapply(function(x) {
+    df <- read.csv(x, sep=",", row.names=NULL, col.names = seq(100)) %>% {.[,apply(.,2,function(x) !all(is.na(x)) )]}
+    n <- ncol(df)-2
+    measurements <- paste0("measure",seq(n-1))
+    samplename <- gsub("ExperimentSummary.csv$","",x)
+    
+    sections <- c("[Experiment Details]","[Conditions]","[Settings]","[Results]",
+                  "[Concentration Warnings]","[Information]","[Size Data]","Bin centre (nm)","Percentile")
+    section_lengths <- c(8,12,7,8,7,9,10,1000,101) %>% `names<-`(sections)
+    section_table <- df[,1] %>% {which(. %in% names(section_lengths))} %>% 
+      {data.frame(row.names=names(section_lengths), start=.+1, end=.+as.vector(section_lengths))}
+    
+    get_rows <- function(i, n_cols=n, transpose=T){
+      tab <- section_table[sections[i],,drop=T] %>% unlist() %>% {seq(.[1],.[2])} %>% {df[.,,drop=F]}
+      if(transpose) tab <- tab %>% {`rownames<-`(.[, 2:n_cols,drop=F], tab[,1])} %>% t() %>% as.data.frame() %>% 
+          mutate_if(~sum(as.numeric(.x))>0, ~as.numeric(.x))
+      return(tab)
+    }
+    
+    details <- get_rows(1, n_cols=2) %>% mutate(sample=samplename)
+    general <- lapply(2:3, get_rows) %>% do.call(cbind, .) %>% mutate(sample=samplename)
+    results <- get_rows(4) %>% mutate(sample=samplename) %>% mutate_if(~!any(is.na(as.numeric(.x))), ~as.numeric(.x))
+    warnings <- get_rows(5) %>% mutate(sample=samplename)
+    info <- get_rows(6) %>% mutate(sample=samplename)
+    size_data <- get_rows(7) %>% mutate(sample=samplename)
+    
+    graph_data1 <- get_rows(8, transpose=F) %>% {.[1:n]} %>% `colnames<-`(c("size_bin",measurements)) %>% 
+      melt(id.vars="size_bin", measure.vars=measurements) %>% mutate(sample=samplename) %>% mutate_if(~!any(is.na(as.numeric(.x))), ~as.numeric(.x))
+    graph_data2 <- get_rows(9, transpose=F) %>% {.[1:n]} %>% `colnames<-`(c("percentile",measurements)) %>% 
+      melt(id.vars="percentile", measure.vars=measurements) %>% mutate(sample=samplename) %>% mutate_if(~!any(is.na(as.numeric(.x))), ~as.numeric(.x))
+    
+    return(list(details=details, general=general, results=results, warnings=warnings, info=info, size_data=size_data,
+                graph_data1=graph_data1, graph_data2=graph_data2))
+  })
+
+details <- list0 %>% lapply(function(x) x$details) %>% do.call(rbind, .)
+general <- list0 %>% lapply(function(x) x$general) %>% do.call(rbind, .)
+results <- list0 %>% lapply(function(x) x$results) %>% do.call(rbind, .)
+warnings<- list0 %>% lapply(function(x) x$warnings)%>% do.call(rbind, .)
+info    <- list0 %>% lapply(function(x) x$info)    %>% do.call(rbind, .)
+size_data<- list0 %>%lapply(function(x) x$size_data)%>% do.call(rbind, .)
+graph_data1 <- list0 %>% lapply(function(x) x$graph_data1) %>% do.call(rbind, .)
+graph_data2 <- list0 %>% lapply(function(x) x$graph_data2) %>% do.call(rbind, .)
+
+graph1d <- function(df, xmetric){
+  xmetric2 <- make.names(xmetric)
+  df <- `colnames<-`(df, make.names(colnames(df)))
+  
+  ggplot(df, aes_string(xmetric2, "sample")) +
+    geom_boxplot(outlier.shape=NA) +
+    geom_point(alpha=.4) +
+    stat_summary(aes(label=round(..x..,2)) , fun=mean, geom="label") +
+    labs(x=xmetric) +
+    theme_bw() +
+    theme(axis.title.y=element_blank())
+}
+
+graph2d <- function(df, xmetric, ymetric){
+  ggplot(df, aes_string(xmetric, ymetric, color="sample")) +
+    geom_point(alpha=.4, size=3) +
+    theme_bw() +
+    theme()
+}
+
+graph3d <- function(df, xmetric, ymetric, labelmetric){
+  graph2d(df, xmetric=xmetric, ymetric=ymetric) +
+    geom_text_repel(aes_string(label=labelmetric))
+}
+```
+
+# General Information {.tabset}
+
+- creation date of this file: `r format(Sys.time(), '%B %d, %Y')`
+- operator: `r unique(details[,"Operator Name"])`
+- camera: `r unique(general[,"Camera Type"])`
+- laser: `r unique(general[,"Laser Type"])`
+- software: `r unique(details[,"Software Version"])`
+
+## Sample Table
+
+```{r}
+# append_log("sample table1")
+supertable(details[,c(4,2,5)] %>% `colnames<-`(gsub("\\."," ",colnames(.))))
+```
+
+## Conditions
+
+```{r}
+supertable(general[,c(1,2,5:12)] %>% `colnames<-`(gsub("\\/","\\/ ",colnames(.))))
+```
+
+## Settings
+
+```{r results="asis"}
+supertable(general[,13:19] %>% `colnames<-`(gsub("\\/","\\/ ",colnames(.))))
+```
+
+# Results {.tabset}
+
+## Table
+
+```{r}
+sections_table <- colnames(results) %>% {.[grepl("^sample$|Concentration Upgrade|Dilution factor", .)]} %>% {.[c(3,2,1)]}
+supertable(results[,sections_table] %>% `colnames<-`(gsub("\\(.*","",colnames(.))))
+```
+
+```{r results="asis"}
+graph1d <- function(df, xmetric){
+  xmetric2 <- make.names(xmetric)
+  df <- `colnames<-`(df, make.names(colnames(df)))
+  
+  ggplot(df, aes_string(xmetric2, "sample")) +
+    geom_boxplot(outlier.shape=NA) +
+    geom_point(alpha=.4) +
+    stat_summary(aes(label=round(..x..,2)) , fun=median, geom="label") +
+    labs(x=xmetric) +
+    theme_bw() +
+    theme(axis.title.y=element_blank())
+}
+
+sections_graphs <- colnames(results) %>% {.[!. %in% sections_table]}
+for(section in sections_graphs){
+  
+  cat("\n") 
+  cat("##", gsub("\\([^\\)]*\\)","", gsub(" per ","/", section)), "\n") # Create second level headings
+  
+  print(graph1d(results, section))
+  
+  cat("\n")
+  
+}
+```
+
+# Warnings & Info {.tabset}
+
+```{r}
+graphHeat <- function(df){
+  n_records <- length(unique(df$sample))
+  n_samples <- length(unique(gsub("\\(.*","",df$sample)))
+  records_per_sample <- n_records/n_samples
+  hlines <- seq(records_per_sample,n_records-records_per_sample,by=records_per_sample) + 0.5
+  ggplot(df, aes(variable, sample, fill=fillcolor)) +
+    geom_tile(color="white") +
+    geom_text(aes(label=value)) +
+    geom_hline(yintercept=hlines, size=1) +
+    scale_fill_identity() +
+    theme_bw() +
+    theme(axis.title=element_blank(), axis.text.x=element_text(angle=45, vjust=1, hjust=1))
+}
+```
+
+
+## Warnings
+
+```{r}
+toplot <- warnings %>% mutate(sample=paste0(sample,"(", seq(nrow(.)), ")")) %>% melt(id.vars="sample") %>%
+  mutate(fillcolor=ifelse(value %in% c("No","OK",""), "lightblue", "red"), value=gsub(" ","\n",value))
+
+graphHeat(toplot)
+```
+
+## Info
+
+```{r}
+toplot <- info %>% mutate(sample=paste0(sample,"(", seq(nrow(.)), ")"),
+                          Concentration=gsub(" concentration","",Concentration)) %>% 
+  melt(id.vars="sample") %>% 
+  mutate(fillcolor=ifelse(value %in% c("No","OK",""), "lightblue", "red"), value=gsub(" ","\n",value))
+
+graphHeat(toplot)
+```
+
+# Size Data {.tabset}
+
+## Mean, Mode, SD
+
+```{r}
+ggplot(size_data, aes(Mean, Mode)) +
+  geom_point() +
+  facet_wrap(~sample) +
+  geom_rug(color="red") +
+  geom_errorbar(aes(xmin=Mean-SD, xmax=Mean+SD)) +
+  geom_errorbar(aes(ymin=Mode-SD, ymax=Mode+SD)) +
+  scale_x_continuous(limits=c(0,1000), expand=c(0,0), breaks=seq(0,1000,200)) +
+  scale_y_continuous(limits=c(0,1000), expand=c(0,0), breaks=seq(0,1000,200)) +
+  theme_bw() +
+  theme(axis.text.x=element_text(angle=90, hjust=0, vjust=.5))
+
+```
+
+## D10, D50, D90
+
+```{r}
+toplot <- melt(size_data, id.vars="sample", measure.vars=c("D10","D50","D90"), value.name="value")
+ggplot(toplot, aes(value, variable, color=sample)) +
+  geom_boxplot() + 
+  geom_point(alpha=.4) +
+  geom_hline(yintercept=seq(2)+.5, color="gray") +
+  scale_x_continuous(limits=c(0,1000), expand=c(0,0), breaks=seq(0,1000,200)) +
+  theme_bw() +
+  theme(panel.grid.major.y=element_blank(), axis.title.y=element_blank())
+
+```
+
+## valid tracks
+
+```{r}
+graph1d(size_data, "Valid Tracks")
+```
+
+# Detailed Graphs {.tabset}
+
+## Size Percentiles
+
+```{r}
+ggplot(graph_data2, aes(percentile, value, color=factor(variable))) +
+  geom_path() +
+  facet_wrap(~sample, scales="free_y") +
+  geom_rug(aes(x=NULL), color="gray30", alpha=.2) +
+  labs(y="particle size (nm)", x="percentile", color="measurement") +
+  scale_y_continuous(expand=c(0,0), limits=c(0,1000), breaks=seq(0,1000,by=100)) +
+  scale_x_continuous(expand=c(0,0), limits=c(0,100)) +
+  theme_bw() +
+  theme()
+```
+
+## Size Distribution
+
+```{r}
+ggplot(graph_data1, aes(size_bin, value, color=factor(variable))) +
+  geom_path() +
+  facet_wrap(~sample) +
+  scale_y_continuous(label=comma, limits=c(0,max(graph_data1$value)*1.1), expand=c(0,0)) +
+  scale_x_continuous(expand=c(0,0), breaks=seq(0,1000,by=200), limits=c(0,1000)) +
+  labs(x="particle size (nm)", y="concentration (particles/mL)", color="measurement") +
+  theme_bw() +
+  theme(axis.text.x=element_text(angle=90, hjust=1, vjust=.5))
+```
+

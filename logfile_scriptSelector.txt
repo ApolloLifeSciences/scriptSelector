@@ -1,0 +1,7 @@
+2023-01-27 13:41:46 Error in setwd(TARGET_FOLDER) : cannot change working directory
+
+2023-01-27 13:41:46 Error in tinytex::install_tinytex() : 
+  If you want to force installing TinyTeX anyway, use tinytex::install_tinytex(force = TRUE).
+
+2023-01-27 13:41:46 Error in unlink(PROGRESSFILE) : object 'PROGRESSFILE' not found
+
