@@ -11,9 +11,10 @@ SCRIPT <- "zLevelCounts.txt"
 source("functions/write_Logfile.R")
 do({
   cmd_args <- commandArgs(trailingOnly=TRUE)
+  JAR_FOLDER <- getwd()
   TARGET_FOLDER <- cmd_args[1]
   CUSTOM_TEXT <- cmd_args[2]
-  append_log(SCRIPT, TARGET_FOLDER, CUSTOM_TEXT, Logfile=paste0("logs/log_global_scriptSelector.txt"))
+  append_log(SCRIPT, TARGET_FOLDER, CUSTOM_TEXT, Logfile="logs/log_global_scriptSelector.txt")
   setwd(TARGET_FOLDER)
   
   PROGRESSFILE <- "scriptSelector_running.txt"

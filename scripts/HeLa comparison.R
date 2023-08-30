@@ -11,6 +11,7 @@ SCRIPT <- "HelaComparison"
 source("functions/write_Logfile.R")
 do({
   cmd_args <- commandArgs(trailingOnly=TRUE)
+  JAR_FOLDER <- getwd()
   TARGET_FOLDER <- cmd_args[1]
   CUSTOM_TEXT <- cmd_args[2]
   append_log(SCRIPT, TARGET_FOLDER, CUSTOM_TEXT, Logfile="logs/log_global_scriptSelector.txt")
@@ -99,4 +100,7 @@ do({
   ggsave(filename=paste0(Sys.Date(),"_",CURRENT_RUN,"_comparison_to_HeLa_runs.png"), plot=p, width=15, height=12)
 })
 append_log("====end====")
+#=======================================================
+#=======================================================
+#=======================================================
 do(unlink(PROGRESSFILE))

@@ -105,7 +105,6 @@ list0 <- list.files(pattern = "ExperimentSummary.*.csv$") %>%
     section_starts <- df[,1] %>% {which(. %in% sections)}
     section_lengths <- c(8,12,7,8,7,9,10,section_starts[9]-section_starts[8]-1,101) %>% `names<-`(sections)
     section_table <- df[,1] %>% {which(. %in% names(section_lengths))} %>% 
-      {.[1:length(sections)]} %>% 
       {data.frame(row.names=names(section_lengths), start=.+1, end=.+as.vector(section_lengths))}
     
     get_rows <- function(i, n_cols=n, transpose=T){
@@ -240,7 +239,7 @@ size_distribution_graph(df)
 
 Note that the concentration is given in: k cells/mL = 1000 cells/mL
 
-```{r, out.width="100%"}
+```{r}
 append_log("Particles in size range")
 myrange <- paste0(MINVAL,"-",MAXVAL,"nm")
 toplot <- graph_data1 %>% 
@@ -251,7 +250,7 @@ mycolor <- "gold"
 
 p <- ggplot(toplot, aes(size, area, fill=size)) +
   geom_boxplot(outlier.shape = NA, position="dodge") +
-  geom_point(shape=21, size=1) +
+  geom_point(shape=21, size=3) +
   facet_wrap(~sample) +
   scale_y_continuous(limits=c(0,max(toplot$area, na.rm=T)*1.1), expand=c(0,0), labels=function(x) format(x, scientifc=T) ) +
   scale_fill_manual(values=`names<-`(c(mycolor, "gray"), c(myrange,"other"))) +

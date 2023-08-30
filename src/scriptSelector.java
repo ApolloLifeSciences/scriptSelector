@@ -10,13 +10,13 @@ import static java.nio.file.Files.copy;
 import java.nio.file.StandardCopyOption;
 
 public class scriptSelector {
-    String APPTITLE = "scriptSelector v1.0.1";
+    String APPTITLE = "scriptSelector v1.1.0";
     String HOME_FOLDER = System.getProperty("user.home");
     String SCRIPTFOLDER = "scripts";
     String PROGRESSFILE = "scriptSelector_running.txt";
     JFileChooser FILECHOOSER;
     JComboBox combo_script;
-    JTextField tf_targetfolder = new JTextField(40);
+    JTextField tf_folder = new JTextField(40);
     JTextField tf_customtext = new JTextField(55);
     JProgressBar pbar = new JProgressBar(0, 100);
     JLabel label_script = new JLabel();
@@ -33,7 +33,7 @@ public class scriptSelector {
 
             String script = combo_script.getSelectedItem().toString();
             String script_path = SCRIPTFOLDER + "\\" + script;
-            String target_folder = tf_targetfolder.getText();
+            String target_folder = tf_folder.getText();
             String new_script_path = target_folder + "\\" + script;
             String customtext = tf_customtext.getText();
 
@@ -54,7 +54,7 @@ public class scriptSelector {
             pb.start();
 
             Thread.sleep(1000);
-            while(checkPath(tf_targetfolder.getText() + "\\" + PROGRESSFILE)){
+            while(checkPath(tf_folder.getText() + "\\" + PROGRESSFILE)){
                 Thread.sleep(1000);
             }
             pbar.setValue(100);
@@ -97,6 +97,11 @@ public class scriptSelector {
                         tf_customtext.setEditable(false);
                         label_customtext.setText("");
                     }
+                    tf_folder.setEditable(true);
+                    if(label_folder.getText().contains("no effect")){
+                        tf_folder.setEditable(false);
+                        label_folder.setText("");
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -106,8 +111,8 @@ public class scriptSelector {
         panel_script.add(combo_script);
         //================================================================
         print("define browsing folders panel");
-        JPanel panel_folder = create_panel("", tf_targetfolder, HOME_FOLDER,
-                "has to contain the files of interest", HOME_FOLDER, true);
+        JPanel panel_folder = create_panel("", tf_folder, HOME_FOLDER,
+                "has to contain the files of interest", HOME_FOLDER);
 
         print("define custom string");
         JPanel panel_customtext = create_panel2("", tf_customtext, "",
@@ -189,7 +194,7 @@ public class scriptSelector {
         String rbin_folder = r_folder + "\\" + rversions[rversions.length - 1] + "\\bin";
         return rbin_folder;
     }
-    public JPanel create_panel(String name, JTextField tf, String tfText, String tooltip, String browseStart, boolean browseFolder){
+    public JPanel create_panel(String name, JTextField tf, String tfText, String tooltip, String browseStart){
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         //define textfield
@@ -204,8 +209,7 @@ public class scriptSelector {
                 if(!checkPath(curdir)) curdir = browseStart;
                 FILECHOOSER.setCurrentDirectory(new File(curdir));
                 FILECHOOSER.setDialogTitle("choose " + name);
-                FILECHOOSER.setFileSelectionMode(FILECHOOSER.FILES_ONLY);
-                if(browseFolder) FILECHOOSER.setFileSelectionMode(FILECHOOSER.DIRECTORIES_ONLY);
+                FILECHOOSER.setFileSelectionMode(FILECHOOSER.FILES_AND_DIRECTORIES);
                 FILECHOOSER.setAcceptAllFileFilterUsed(false);
                 if (FILECHOOSER.showOpenDialog(panel) == JFileChooser.APPROVE_OPTION) {
                     String selectedFile = FILECHOOSER.getSelectedFile().getAbsolutePath();
