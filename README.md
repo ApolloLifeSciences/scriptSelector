@@ -29,3 +29,4 @@ SCRIPT = ["renameTiffs"]
 
 ## Key people
 - Ricardo Guerreiro was once involved with deploying his python script to the scriptSelector
+- Rinat Karabayev was a key user of the Particulator script to generate QC reports
